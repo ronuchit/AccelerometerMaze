@@ -9,7 +9,7 @@ class AccelListener(object):
   def __init__(self):
     self.prev_avg = []
     self.curr_data = []
-    self.motion_threshold = 1.0
+    self.motion_threshold = 2.0
     self.ignore_up = False
     self.ignore_down = False
     self.ignore_left = False
@@ -39,6 +39,7 @@ class AccelListener(object):
           if (curr_avg[i] - prev_avg[i]) > motion_threshold:
             if i == 0:
               # it moved in the right direction
+              print("right")
               if not self.ignore_right:
                 self.ignore_left = True
                 self.register_direction(AccelListener.RIGHT)
@@ -46,6 +47,7 @@ class AccelListener(object):
                 self.ignore_right = False
             else:
               # it moved in the up direction
+              print("up")
               if not self.ignore_up:
                 self.ignore_down = True
                 self.register_direction(AccelListener.DOWN)
@@ -54,6 +56,7 @@ class AccelListener(object):
           else:
             if i == 0:
               # it moved in the left direction
+              print("left")
               if not self.ignore_left:
                 self.ignore_right = True
                 self.register_direction(AccelListener.LEFT)
@@ -61,6 +64,7 @@ class AccelListener(object):
                 self.ignore_left = False
             else:
               # it moved in the down direction
+              print("down")
               if not self.ignore_down:
                 self.ignore_up = True
                 self.register_direction(AccelListener.DOWN)
