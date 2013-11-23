@@ -2,9 +2,10 @@ import time
 
 # DATA_PER_INTERVAL = 5;
 INTERVAL = 0.1;
-UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
-class AccelListener(object):  
+class AccelListener(object):
+  UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
+
   def __init__(self):
     self.prev_avg = []
     self.curr_data = []
