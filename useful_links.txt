@@ -1,0 +1,16 @@
+general info on accelerometer:
+http://www.vogella.com/articles/AndroidSensor/article.html
+http://developer.android.com/guide/topics/sensors/sensors_overview.html
+
+android activity lifecycle (important read):
+http://developer.android.com/reference/android/app/Activity.html#ActivityLifecycle
+
+wired connectivity from android to pc:
+http://developer.android.com/guide/topics/data/data-storage.html#filesExternal
+
+wireless connectivity from android to pc:
+http://developer.android.com/guide/topics/connectivity/index.html
+
+sydney's links:
+http://forum.processing.org/one/topic/how-to-send-accelerometer-data-from-phone-to-desktop.html
+http://www.techrepublic.com/blog/software-engineer/a-quick-tutorial-on-coding-androids-accelerometer/
