@@ -76,3 +76,6 @@ class AccelListener(object):
   def register_direction(self, direction):
     with open("data/curr_direction.txt", "w+") as f:
       f.write(direction)
+
+if __name__ == "__main__":
+  AccelListener().listen()
