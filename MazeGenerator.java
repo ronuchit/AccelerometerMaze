@@ -1,6 +1,7 @@
 /* MazeGenerator.java */
 
 import java.util.*;
+import java.io.*;
 import utils.*;
 
 /**
@@ -290,6 +291,46 @@ public class MazeGenerator {
     return cycleDetected;
   }
 
+  protected void write_walls() {
+    Writer writer = null;
+
+    try {
+      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("maze_repr/hWalls.txt"), "utf-8"));
+      for(int i = 0; i < hWalls.length; i++) {
+        for(int j = 0; j < hWalls[0].length; j++) {
+          if (hWalls[i][j]) {
+            writer.write("1 ");
+          } else {
+            writer.write("0 ");
+          }
+        }
+        writer.write("\n");
+      }
+      writer.close();
+    } catch (IOException e) {
+      System.out.println("Failed hWalls write to file");
+      System.exit(1);
+    }
+
+    try {
+      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("maze_repr/vWalls.txt"), "utf-8"));
+      for(int i = 0; i < vWalls.length; i++) {
+        for(int j = 0; j < vWalls[0].length; j++) {
+          if (vWalls[i][j]) {
+            writer.write("1 ");
+          } else {
+            writer.write("0 ");
+          }
+        }
+        writer.write("\n");
+      }
+      writer.close();
+    } catch (IOException e) {
+      System.out.println("Failed vWalls write to file");
+      System.exit(1);
+    }
+  }
+
   /**
    * main() creates a maze of dimensions specified on the command line, prints
    * the maze, and runs the diagnostic method to see if the maze is good.
@@ -309,8 +350,9 @@ public class MazeGenerator {
     }
 
     MazeGenerator maze = new MazeGenerator(x, y);
+    maze.write_walls();
     System.out.print(maze);
-    maze.diagnose();
+    // maze.diagnose();
   }
 
 }
