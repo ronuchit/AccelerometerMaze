@@ -3,6 +3,7 @@
 import java.util.*;
 import java.io.*;
 import utils.*;
+import java.lang.*;
 
 /**
  *  The MazeGenerator class represents a maze in a rectangular grid.  There is exactly
@@ -194,108 +195,86 @@ public class MazeGenerator {
     return r;
   }
 
-  /**
-   * diagnose() checks the maze and prints a warning if not every cell can be
-   * reached from the upper left corner cell, or if there is a cycle reachable
-   * from the upper left cell.
-   *
-   * DO NOT CHANGE THIS METHOD.  Your code is expected to work with our copy
-   * of this method.
-   **/
-  protected void diagnose() {
-    if ((horiz < 1) || (vert < 1) || ((horiz == 1) && (vert == 1))) {
-      return;                                    // There are no interior walls
-    }
-
-    boolean mazeFine = true;
-
-    // Create an array that indicates whether each cell has been visited during
-    // a depth-first traversal.
+  protected boolean good_difficulty(int difficulty) {
     boolean[][] cellVisited = new boolean[horiz][vert];
-    // Do a depth-first traversal.
-    if (depthFirstSearch(0, 0, STARTHERE, cellVisited)) {
-      System.out.println("Your maze has a cycle.");
-      mazeFine = false;
+    int num_turns = depthFirstSearch(0, 0, STARTHERE, cellVisited, 0);
+    int thres1 = 3, thres2 = 6, thres3 = 9, thres4 = 12;
+    if (difficulty == 0) {
+      return num_turns >= thres1 && num_turns < thres2;
+    } else if (difficulty == 1) {
+      return num_turns >= thres2 && num_turns < thres3;
+    } else if (difficulty == 2) {
+      return num_turns >= thres3 && num_turns < thres4;
+    } else if (difficulty == 3) {
+      return num_turns >= thres4;
+    } else {
+      System.out.println("Invalid difficulty (0/1/2/3)");
+      System.exit(1);
     }
 
-    // Check to be sure that every cell of the maze was visited.
-  outerLoop:
-    for (int j = 0; j < vert; j++) {
-      for (int i = 0; i < horiz; i++) {
-        if (!cellVisited[i][j]) {
-          System.out.println("Not every cell in your maze is reachable from " +
-                             "every other cell.");
-          mazeFine = false;
-          break outerLoop;
-        }
-      }
-    }
-
-    if (mazeFine) {
-      System.out.println("What a fine maze you've created!");
-    }
+    return false;
   }
 
-  /**
-   * depthFirstSearch() does a depth-first traversal of the maze, marking each
-   * visited cell.  Returns true if a cycle is found.
-   *
-   * DO NOT CHANGE THIS METHOD.  Your code is expected to work with our copy
-   * of this method.
-   */
-  protected boolean depthFirstSearch(int x, int y, int fromWhere,
-                                     boolean[][] cellVisited) {
-    boolean cycleDetected = false;
+  protected int depthFirstSearch(int x, int y, int fromWhere,
+                                     boolean[][] cellVisited, int turns) {
     cellVisited[x][y] = true;
+    if (x == horiz - 1 && y == vert - 1) {
+      return turns;
+    }
+    int t1 = -1, t2 = -1, t3 = -1, t4 = -1;
 
     // Visit the cell to the right?
     if ((fromWhere != FROMRIGHT) && !verticalWall(x, y)) {
-      if (cellVisited[x + 1][y]) {
-        cycleDetected = true;
-      } else {
-        cycleDetected = depthFirstSearch(x + 1, y, FROMLEFT, cellVisited) ||
-                        cycleDetected;
+      if (!cellVisited[x + 1][y]) {
+        if (fromWhere == FROMLEFT) {
+          t1 = depthFirstSearch(x + 1, y, FROMLEFT, cellVisited, turns);
+        } else {
+          t1 = depthFirstSearch(x + 1, y, FROMLEFT, cellVisited, turns + 1);
+        }
       }
     }
 
     // Visit the cell below?
     if ((fromWhere != FROMBELOW) && !horizontalWall(x, y)) {
-      if (cellVisited[x][y + 1]) {
-        cycleDetected = true;
-      } else {
-        cycleDetected = depthFirstSearch(x, y + 1, FROMABOVE, cellVisited) ||
-                        cycleDetected;
+      if (!cellVisited[x][y + 1]) {
+        if (fromWhere == FROMABOVE) {
+          t2 = depthFirstSearch(x, y + 1, FROMABOVE, cellVisited, turns);
+        } else {
+          t2 = depthFirstSearch(x, y + 1, FROMABOVE, cellVisited, turns + 1);
+        }
       }
     }
 
     // Visit the cell to the left?
     if ((fromWhere != FROMLEFT) && !verticalWall(x - 1, y)) {
-      if (cellVisited[x - 1][y]) {
-        cycleDetected = true;
-      } else {
-        cycleDetected = depthFirstSearch(x - 1, y, FROMRIGHT, cellVisited) ||
-                        cycleDetected;
+      if (!cellVisited[x - 1][y]) {
+        if (fromWhere == FROMRIGHT) {
+          t3 = depthFirstSearch(x - 1, y, FROMRIGHT, cellVisited, turns);
+        } else {
+          t3 = depthFirstSearch(x - 1, y, FROMRIGHT, cellVisited, turns + 1);
+        }
       }
     }
 
     // Visit the cell above?
     if ((fromWhere != FROMABOVE) && !horizontalWall(x, y - 1)) {
-      if (cellVisited[x][y - 1]) {
-        cycleDetected = true;
-      } else {
-        cycleDetected = depthFirstSearch(x, y - 1, FROMBELOW, cellVisited) ||
-                        cycleDetected;
+      if (!cellVisited[x][y - 1]) {
+        if (fromWhere == FROMBELOW) {
+          t4 = depthFirstSearch(x, y - 1, FROMBELOW, cellVisited, turns);
+        } else {
+          t4 = depthFirstSearch(x, y - 1, FROMBELOW, cellVisited, turns + 1);
+        }
       }
     }
 
-    return cycleDetected;
+    return Math.max(t1, Math.max(t2, Math.max(t3, t4)));
   }
 
   protected void write_walls() {
     Writer writer = null;
 
     try {
-      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("maze_repr/hWalls.txt"), "utf-8"));
+      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/hWalls.txt"), "utf-8"));
       for(int i = 0; i < hWalls.length; i++) {
         for(int j = 0; j < hWalls[0].length; j++) {
           if (hWalls[i][j]) {
@@ -313,7 +292,7 @@ public class MazeGenerator {
     }
 
     try {
-      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("maze_repr/vWalls.txt"), "utf-8"));
+      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/vWalls.txt"), "utf-8"));
       for(int i = 0; i < vWalls.length; i++) {
         for(int j = 0; j < vWalls[0].length; j++) {
           if (vWalls[i][j]) {
@@ -336,20 +315,25 @@ public class MazeGenerator {
    * the maze, and runs the diagnostic method to see if the maze is good.
    */
   public static void main(String[] args) {
-    if (args.length != 2) {
-      System.out.println("Usage: java MazeGenerator [dim1] [dim2]");
+    if (args.length != 3) {
+      System.out.println("Usage: java MazeGenerator [dim1] [dim2] [difficulty 0/1/2/3]");
       System.exit(1);
     }
-    int x = 0, y = 0;
+    int horiz = 0, vert = 0, difficulty = 0;
     try {
-      x = Integer.parseInt(args[0]);
-      y = Integer.parseInt(args[1]);
+      horiz = Integer.parseInt(args[0]);
+      vert = Integer.parseInt(args[1]);
+      difficulty = Integer.parseInt(args[2]);
     } catch (NumberFormatException e) {
       System.out.println("Usage: java MazeGenerator [dim1] [dim2]");
       System.exit(1);
     }
 
-    MazeGenerator maze = new MazeGenerator(x, y);
+    MazeGenerator maze = new MazeGenerator(horiz, vert);
+    while (!maze.good_difficulty(difficulty)) {
+      System.out.println("Generating harder maze");
+      maze = new MazeGenerator(horiz, vert);
+    }
     maze.write_walls();
     System.out.print(maze);
     // maze.diagnose();
