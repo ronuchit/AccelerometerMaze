@@ -16,7 +16,7 @@ class AccelListener(object):
     self.ignore_right = False
 
   def refresh_data(self):
-    with open("data/accel_data.txt", "r+") as f:
+    with open("../data/accel_data.txt", "r+") as f:
       self.curr_data = f.readlines()
 
   def listen(self):
@@ -75,7 +75,7 @@ class AccelListener(object):
       self.prev_avg = curr_avg
 
   def register_direction(self, direction):
-    with open("data/curr_direction.txt", "w+") as f:
+    with open("../data/curr_direction.txt", "w+") as f:
       f.write(direction)
 
 if __name__ == "__main__":
