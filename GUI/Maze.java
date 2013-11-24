@@ -1,4 +1,3 @@
-package maze;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,64 +12,101 @@ import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+/*<applet code=applet.java width=1000 height=1000>
+</applet>*/ 
+
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
+import java.io.*;
 
-
-public class Maze extends JApplet implements ActionListener{
-    int length = 0;
-    int x = 0;
+public class Maze extends JApplet implements ActionListener {
+    static final int APPLET_X_SIZE = 1000;
+    static final int APPLET_Y_SIZE = 1000;
+    static final int MOVE_UNITS = 20;
+    
+    int size_delta = 0;
+    Box b;
+    int maze_height, maze_width;
+    Timer timer;
+    
     public Maze() {
-        Timer timer = new Timer(500, this);
-        timer.setInitialDelay(5000);
+        timer = new Timer(500, this);
+        timer.setInitialDelay(1000);
+        b = new Box();
+    }
+    
+    @Override
+    public void init() {
+        setSize(APPLET_X_SIZE, APPLET_Y_SIZE);
+        MazeGUIGenerator mg = new MazeGUIGenerator();
+        add(mg);
         timer.start();
+        maze_height = mg.height;
+        maze_width = mg.width;
     }
-    public void init(){
-        setSize( 1000, 1000 );
-		Box a = new Box();
-                add(a);
-		//getContentPane().add(a);          
-		//topPanel.add( labelHello, BorderLayout.NORTH ); 
-    }
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
-        setSize(1000+x, 1000+x );
-        if(x == 1){
-            x--;
+        // hack for refresh
+        setSize(APPLET_X_SIZE + size_delta, APPLET_Y_SIZE + size_delta);
+        if(size_delta == 1) {
+            size_delta--;
         }
-        else{
-            x++;
+        else {
+            size_delta++;
         }
-        this.length+=20;
-        Box b = new Box();
-        b.setLength(this.length);
+        File file = new File("../data/curr_direction.txt");
+        int direction = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            direction = Integer.parseInt(br.readLine());
+        } catch (FileNotFoundException e) {
+            System.out.println("File curr_direction.txt not found");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("Failed curr_direction.txt read");
+            System.exit(1);
+        }
+        System.out.println(direction);
+
+        if (direction == 0) { // up
+            b.setY(b.getY() - MOVE_UNITS);
+        } else if (direction == 1) { // down
+            b.setY(b.getY() + MOVE_UNITS);
+        } else if (direction == 2) { // left
+            b.setX(b.getX() - MOVE_UNITS);
+        } else if (direction == 3) { // right
+            b.setX(b.getX() + MOVE_UNITS);
+        }
         add(b);
     }
-    
-}
 
-class VerticalMaze extends JPanel{
-    
 }
 
 class Box extends JPanel {
-    int a = 1;
-    int length;
+    int x = -20, y = 0;
     private static final int PREF_W = 500;
     private static final int PREF_H = PREF_W;
-    /**
-     * *
-     * This adds a letter.b
-     *
-     * @params: x coordinate, y coordinate, letter.
-     * @author Robert
-     */
-    public void setLength(int length) {
-        this.length = length;
+    
+    public void setX(int x) {
+        this.x = x;
     }
+    
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(PREF_W, PREF_H);
@@ -88,7 +124,7 @@ class Box extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        Rectangle r = new Rectangle(length, length, 10, 10);
-        g2.draw(r);
+        g2.setColor(Color.RED);
+        g2.fillRect(0, 0, 10, 10);
     }
 }
