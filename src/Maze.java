@@ -31,9 +31,16 @@ public class Maze extends JApplet implements ActionListener {
     Box b;
     int maze_height, maze_width;
     Timer timer;
+    boolean invincible = false;
     
     public Maze() {
-        timer = new Timer(200, this);
+        BufferedReader br = new BufferedReader(new FileReader(new File("data/game_info.txt")));
+        pace = Integer.parseInt(br.readLine());
+        invincible = Integer.parseInt(br.readLine());
+        if (invincible == 1) {
+            this.invincible = true;
+        }
+        timer = new Timer(pace, this);
         timer.setInitialDelay(1000);
         b = new Box();
     }
