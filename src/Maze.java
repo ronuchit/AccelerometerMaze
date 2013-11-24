@@ -30,12 +30,16 @@ public class Maze extends JApplet implements ActionListener {
     static final int APPLET_Y_SIZE = 1000;
     
     int size_delta = 0;
+    int pace = 200;
     int startPoint = 0;
     Box b;
     int maze_height, maze_width,move_units;
     String[] heightAndWidth;
 
     JButton restart;
+    JButton start;
+    JButton paceButton;
+    JButton invulnButton;
     JLabel fail;
     JLabel success;
     MazeGUIGenerator mg;
@@ -44,21 +48,21 @@ public class Maze extends JApplet implements ActionListener {
     
     public Maze() {
 
-        int pace = 0, invincible = 0;
-        try {
+        int pace = 200;
+        timer = new Timer(pace,this);
+        timer.setInitialDelay(3000);
+        /*try {
             BufferedReader br = new BufferedReader(new FileReader(new File("data/game_info.txt")));
             pace = Integer.parseInt(br.readLine());
             invincible = Integer.parseInt(br.readLine());
         } catch (IOException e) {
             System.out.println("this can't happen");
             System.exit(1);
-        }
-        if (invincible == 1) {
+        }*/
+        /*if (invincible == 1) {
             System.out.println("Scrub");
             this.invincible = true;
-        }
-        timer = new Timer(pace, this);
-        timer.setInitialDelay(5000);
+        }*/
         b = new Box();
         try {
             move_units = MoveUnits();
@@ -80,14 +84,38 @@ public class Maze extends JApplet implements ActionListener {
         maze_height = new Integer(heightAndWidth[1]);
         return 250 / Math.max(maze_height, maze_width);
     }
+
+    /*
+        Initializes the starting conditions of the maze. Creates the matrix.
+
+    */
     @Override
     public void init() {
-        Font f = new Font("serif", Font.PLAIN, 30);
+        Font f = new Font("serif", Font.BOLD, 100);
         fail = new JLabel("Fail");
-        success = new JLabel("Success!",SwingConstants.CENTER);
-        success.setVerticalAlignment(SwingConstants.CENTER);
         restart = new JButton("Restart?");
+        start = new JButton("Start!");
+        paceButton = new JButton("200");
+        invulnButton = new JButton("Invuln No");
         restart.setFont(f);
+        start.setFont(f);
+        start.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e)
+            {
+                if(start.getText() == "Success!"){
+                    System.exit(0);
+                }
+                //Execute when button is pressed
+                b.setX((int)(0.40*move_units));
+                b.setY((int)(1.35*move_units));
+                startPoint = 0;
+                b.setScaledX(0);
+                b.setScaledY(0);
+                start.setVisible(false);
+                add(mg);
+                timer.start();
+            }
+        });    
         restart.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e)
             {
@@ -100,15 +128,13 @@ public class Maze extends JApplet implements ActionListener {
                             System.exit(0);
                         }
                     });
-                    panel.add(quitButton);
-                    setSize(300, 200);
-                    setLocationRelativeTo(null);
-                    setDefaultCloseOperation(EXIT_ON_CLOSE);
-                    }
+                    add(quitButton);
+                    //quitButton.setPreferredSize(300, 200);
+                    quitButton.setLocation(50, 50);
+                    //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     //System.exit(0);
                 }
                 //Execute when button is pressed
-                System.out.println("You clicked the button");
                 b.setX((int)(0.40*move_units));
                 b.setY((int)(1.35*move_units));
                 startPoint = 0;
@@ -118,10 +144,40 @@ public class Maze extends JApplet implements ActionListener {
                 timer.restart();
             }
         });    
+        paceButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e)
+            {
+                pace = (pace+200)%1000;
+                if(pace == 0){
+                    pace = 1000;
+                }
+                timer.setDelay(pace);
+                paceButton.setText(String.valueOf(pace));
+            }
+        }); 
+        invulnButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e)
+            {
+                invincible = !invincible;
+                if(invincible){
+                        invulnButton.setText("Invuln Yes");
+                }
+                else{
+
+                        invulnButton.setText("Invuln No");
+                }
+            }
+        });    
         setSize(APPLET_X_SIZE, APPLET_Y_SIZE);
         mg = new MazeGUIGenerator();
         add(mg);
-        timer.start();
+        JFrame frame = new JFrame ("Start");
+        frame.getContentPane().setLayout(new GridLayout(2, 2));
+        frame.add (paceButton);
+        frame.add (invulnButton);
+        frame.pack();
+        frame.setVisible(true);
+        add(start);
     }
     
     /*
@@ -132,9 +188,6 @@ public class Maze extends JApplet implements ActionListener {
     */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if(invincible){
-            System.out.println("HUZZAH");
-        }
         fail.setLocation(0,0);
         // hack for refresh
         setSize(APPLET_X_SIZE + size_delta, APPLET_Y_SIZE + size_delta);
