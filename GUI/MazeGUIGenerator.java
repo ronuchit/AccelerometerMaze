@@ -33,7 +33,9 @@ public class MazeGUIGenerator extends JPanel {
     public int[][] horizontalWalls;
     public int[][] walls;
     public int height;
-    public int width;
+    public int width;    
+    private int scaledValue;
+
 
     /*Parses the boolean matrix off the HorizontalMaze text file. First loop
       creates the vertical walls, second loop creates horizontal walls. Takes
@@ -65,7 +67,7 @@ public class MazeGUIGenerator extends JPanel {
                 }
                 count++;
             }
-            
+            scaledValue = 500/Math.max(height, width);
             if (i == VERTICAL) {
                 verticalWalls = walls;
             } else {
@@ -101,7 +103,7 @@ public class MazeGUIGenerator extends JPanel {
                 g2.setColor(Color.BLACK);
                 if (j == -1 || j == width-1 || verticalWalls[i][j] == 1) {
                     if(!(i == 0 && j == -1) && !(i== height-1 && j == width-1 )) {
-                        Rectangle r = new Rectangle((j+2) * 20, (i+1) * 20, 1, 20);
+                        Rectangle r = new Rectangle((j+2) * scaledValue, (i+1) * scaledValue, 1, scaledValue);
                         g2.draw(r);
                     }
                 }
@@ -113,7 +115,7 @@ public class MazeGUIGenerator extends JPanel {
                 //if black.
                 g2.setColor(Color.BLACK);
                 if ( i<0 || i == height-1 || horizontalWalls[i][j] == 1) {
-                    Rectangle r = new Rectangle((j+1) * 20, (i+2) * 20, 20, 1);
+                    Rectangle r = new Rectangle((j+1) * scaledValue, (i+2) * scaledValue, scaledValue, 1);
                     g2.draw(r);
                 }
             }
