@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Label;
+import java.awt.*;
 import java.awt.Panel;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JButton;
 /*<applet code=applet.java width=1000 height=1000>
 </applet>*/ 
 
@@ -27,9 +29,12 @@ public class Maze extends JApplet implements ActionListener {
     static final int APPLET_Y_SIZE = 1000;
     
     int size_delta = 0;
+    int startPoint = 0;
     Box b;
     int maze_height, maze_width,move_units;
     String[] heightAndWidth;
+
+    JButton restart;
     JLabel fail;
     JLabel success;
     MazeGUIGenerator mg;
@@ -37,6 +42,7 @@ public class Maze extends JApplet implements ActionListener {
     boolean invincible = false;
     
     public Maze() {
+
         int pace = 0, invincible = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File("data/game_info.txt")));
@@ -50,7 +56,7 @@ public class Maze extends JApplet implements ActionListener {
             this.invincible = true;
         }
         timer = new Timer(pace, this);
-        timer.setInitialDelay(3000);
+        timer.setInitialDelay(5000);
         b = new Box();
         try {
             move_units = MoveUnits();
@@ -58,8 +64,7 @@ public class Maze extends JApplet implements ActionListener {
             System.out.println("parse failure");
             System.exit(1);
         }
-        System.out.println("File is " + move_units);
-        b.setX((int)(1.40*move_units));
+        b.setX((int)(0.40*move_units));
         b.setY((int)(1.35*move_units));
         add(b);
     }
@@ -75,16 +80,36 @@ public class Maze extends JApplet implements ActionListener {
     }
     @Override
     public void init() {
+        Font f = new Font("serif", Font.PLAIN, 30);
         fail = new JLabel("Fail");
-        fail.setHorizontalTextPosition(JLabel.CENTER);
-        fail.setVerticalTextPosition(JLabel.BOTTOM);
-        success = new JLabel("Sucess!");
+        success = new JLabel("Success!");
+        restart = new JButton("Restart?");
+        restart.setFont(f);
+        restart.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e)
+            {
+                //Execute when button is pressed
+                System.out.println("You clicked the button");
+                b.setX((int)(0.40*move_units));
+                b.setY((int)(1.35*move_units));
+                b.setScaledX(0);
+                b.setScaledY(0);
+                restart.setVisible(false);
+                timer.restart();
+            }
+        });    
         setSize(APPLET_X_SIZE, APPLET_Y_SIZE);
         mg = new MazeGUIGenerator();
         add(mg);
         timer.start();
     }
     
+    /*
+        The rate of the action performed is based on the game info. Using 
+        the accelerometer, the player moves around the android phone. If he
+        collides into a wall, the game will end, but he will be given a chance
+        to reset. Otherwise, if he manages to get to the other side, he wins.
+    */
     @Override
     public void actionPerformed(ActionEvent ae) {
 
@@ -108,35 +133,47 @@ public class Maze extends JApplet implements ActionListener {
         } catch (IOException e) {
             System.out.println("Failed curr_direction.txt read");
             System.exit(1);
-        }
+        } 
         if (direction == 0) { // up
             b.setY(b.getY() - move_units);
-            if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledY()][b.getScaledY()-1] == 1){   
+            if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledY()-1][b.getScaledY()] == 1){   
+                add(restart);
+                restart.setVisible(true);
                 timer.stop();
+                return;
             }
             b.setScaledY(b.getScaledY() - 1);
         } else if (direction == 1) { // down
             b.setY(b.getY() + move_units);
             if(b.getScaledY() == maze_height-1 || mg.horizontalWalls[b.getScaledY()][b.getScaledX()] == 1){
+                add(restart);
+                restart.setVisible(true);
                 timer.stop();
+                return;
             }
             b.setScaledY(b.getScaledY() + 1);
         } else if (direction == 2) { // left
             b.setX(b.getX() - move_units);
-            if(b.getScaledY() == 0 || mg.verticalWalls[b.getScaledY()-1][b.getScaledX()] == 1){
+            if(b.getScaledX() == 0 || mg.verticalWalls[b.getScaledY()][b.getScaledX()-1] == 1){
+                add(restart);
+                restart.setVisible(true);
                 timer.stop();
+                return;
             }
             b.setScaledX(b.getScaledX() - 1);
         } else if (direction == 3) { // right
             b.setX(b.getX() + move_units);
-            if(b.getScaledY() == maze_width-1 && b.getScaledY() == maze_height-1){
+            if(b.getScaledY() == maze_width-1 && b.getScaledX() == maze_height-1){
                 add(success);
                 timer.stop();
                 return;
             }
-            else if(b.getScaledY() == maze_width-1 || mg.verticalWalls[b.getScaledY()][b.getScaledX()] == 1){
+            else if(b.getScaledX() == maze_width-1 || mg.verticalWalls[b.getScaledY()][b.getScaledX()] == 1){
+                add(restart);
+                restart.setVisible(true);
                 System.out.println("FAIL!");
                 System.out.println(b.getScaledY());
+                System.out.println(b.getScaledX());
                 timer.stop();
                 return;
             }
