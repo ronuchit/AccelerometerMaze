@@ -67,6 +67,9 @@ public class MazeGUIGenerator extends JPanel {
                 count++;
             }
             scaledValue = 500 / Math.max(height, width);
+            if(scaledValue%2 != 0){
+                scaledValue = scaledValue - 1;
+            }
             if (i == VERTICAL) {
                 verticalWalls = walls;
             } else {

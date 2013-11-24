@@ -25,11 +25,11 @@ import java.io.*;
 public class Maze extends JApplet implements ActionListener {
     static final int APPLET_X_SIZE = 1000;
     static final int APPLET_Y_SIZE = 1000;
-    static final int MOVE_UNITS = 20;
     
     int size_delta = 0;
     Box b;
-    int maze_height, maze_width;
+    int maze_height, maze_width,move_units;
+    String[] heightAndWidth;
     Timer timer;
     boolean invincible = false;
     
@@ -43,16 +43,33 @@ public class Maze extends JApplet implements ActionListener {
         timer = new Timer(pace, this);
         timer.setInitialDelay(1000);
         b = new Box();
+        try{
+            move_units = MoveUnits();
+        }
+        catch(IOException e){
+            System.out.println("parse failure");
+            System.exit(1);
+        }
+        System.out.println("File is " + move_units);
+        b.setX((int)(0.4*move_units));
+        b.setY((int)(1.35*move_units));
     }
     
+    public int MoveUnits() throws FileNotFoundException, IOException {
+        File file = new File("data/vWalls.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String line = br.readLine();
+        heightAndWidth = line.split(" ");
+        maze_width = new Integer(heightAndWidth[0]);
+        maze_height = new Integer(heightAndWidth[1]);
+        return 250 / Math.max(maze_height, maze_width);
+    }
     @Override
     public void init() {
         setSize(APPLET_X_SIZE, APPLET_Y_SIZE);
         MazeGUIGenerator mg = new MazeGUIGenerator();
         add(mg);
         timer.start();
-        maze_height = mg.height;
-        maze_width = mg.width;
     }
     
     @Override
@@ -79,13 +96,13 @@ public class Maze extends JApplet implements ActionListener {
         }
 
         if (direction == 0) { // up
-            b.setY(b.getY() - MOVE_UNITS);
+            b.setY(b.getY() - move_units);
         } else if (direction == 1) { // down
-            b.setY(b.getY() + MOVE_UNITS);
+            b.setY(b.getY() + move_units);
         } else if (direction == 2) { // left
-            b.setX(b.getX() - MOVE_UNITS);
+            b.setX(b.getX() - move_units);
         } else if (direction == 3) { // right
-            b.setX(b.getX() + MOVE_UNITS);
+            b.setX(b.getX() + move_units);
         }
         add(b);
     }
