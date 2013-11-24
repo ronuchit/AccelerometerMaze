@@ -7,7 +7,7 @@ class AccelListener(object):
   UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
   def __init__(self):
-    self.prev_avg = []
+    self.prev_avg = [0.0, 0.0]
     self.curr_data = []
     self.motion_threshold = 2.0
     self.ignore_up = False
@@ -27,15 +27,16 @@ class AccelListener(object):
       curr_avg = [0.0, 0.0]
       for datum_str in self.curr_data:
         datum = datum_str.split()
-        curr_avg = []
-        for i in range(len(curr_avg)):
+        if datum != "[]":
           curr_avg = [curr_avg[i] + (float)(datum[i]) for i in range(2)]
       l = len(self.curr_data)
       curr_avg = [a / l for a in curr_avg]
+      print(curr_avg)
+      print(self.prev_avg)
       # figure out which direction the phone moved
       for i in range(len(curr_avg)):
-        if abs(curr_avg[i] - prev_avg[i]) > motion_threshold:
-          if (curr_avg[i] - prev_avg[i]) > motion_threshold:
+        if abs(curr_avg[i] - self.prev_avg[i]) > self.motion_threshold:
+          if (curr_avg[i] - self.prev_avg[i]) > self.motion_threshold:
             if i == 0:
               # it moved in the right direction
               print("right")
@@ -76,7 +77,7 @@ class AccelListener(object):
 
   def register_direction(self, direction):
     with open("../data/curr_direction.txt", "w+") as f:
-      f.write(direction)
+      f.write(str(direction))
 
 if __name__ == "__main__":
   AccelListener().listen()
