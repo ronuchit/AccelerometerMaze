@@ -17,6 +17,8 @@ class InputListener(object):
       self.register_direction(AccelListener.UP)
     elif event.keysym == 'Down':
       self.register_direction(AccelListener.DOWN)
+    else:
+      root.destroy()
 
   def register_direction(self, direction):
     with open("data/curr_direction.txt", "w+") as f:
