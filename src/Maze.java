@@ -211,6 +211,11 @@ public class Maze extends JApplet implements ActionListener {
                 add(restart);
                 restart.setVisible(true);
                 timer.stop();
+                try {
+                  BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/curr_direction.txt"), "utf-8"));
+                  writer.write("3");
+                  writer.close();
+                } catch (IOException e) { }                  
                 return;
             }
             b.setY(b.getY() - move_units);
@@ -223,6 +228,11 @@ public class Maze extends JApplet implements ActionListener {
                 add(restart);
                 restart.setVisible(true);
                 timer.stop();
+                try {
+                  BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/curr_direction.txt"), "utf-8"));
+                  writer.write("3");
+                  writer.close();
+                } catch (IOException e) { }                  
                 return;
             }
             b.setY(b.getY() + move_units);
@@ -232,9 +242,11 @@ public class Maze extends JApplet implements ActionListener {
                 if(invincible){
                     return;
                 }
-                add(restart);
-                restart.setVisible(true);
-                timer.stop();
+                try {
+                  BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/curr_direction.txt"), "utf-8"));
+                  writer.write("3");
+                  writer.close();
+                } catch (IOException e) { }                  
                 return;
             }
             b.setX(b.getX() - move_units);
@@ -246,6 +258,11 @@ public class Maze extends JApplet implements ActionListener {
                 restart.setVisible(true);
                 add(restart);
                 timer.stop();
+                try {
+                  BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/curr_direction.txt"), "utf-8"));
+                  writer.write("3");
+                  writer.close();
+                } catch (IOException e) { }                  
                 return;
             }
             else if(b.getScaledX() == maze_width-1 || mg.verticalWalls[b.getScaledY()][b.getScaledX()] == 1){
@@ -255,6 +272,11 @@ public class Maze extends JApplet implements ActionListener {
                 add(restart);
                 restart.setVisible(true);
                 timer.stop();
+                try {
+                  BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/curr_direction.txt"), "utf-8"));
+                  writer.write("3");
+                  writer.close();
+                } catch (IOException e) { }                  
                 return;
             }
             b.setX(b.getX() + move_units);

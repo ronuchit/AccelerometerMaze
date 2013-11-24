@@ -11,5 +11,6 @@ java MazeGenerator $1 $2 $3
 python input_listener.py &
 appletviewer Maze.html
 pkill -KILL python
+pkill -KILL appletviewer
 rm *.class
 rm *.pyc
