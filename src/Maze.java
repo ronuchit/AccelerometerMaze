@@ -71,6 +71,8 @@ public class Maze extends JApplet implements ActionListener {
     }
     @Override
     public void init() {
+        JLabel fail;
+        label = new JLabel(getParameter("HURUR"));
         setSize(APPLET_X_SIZE, APPLET_Y_SIZE);
         MazeGUIGenerator mg = new MazeGUIGenerator();
         add(mg);
@@ -99,13 +101,21 @@ public class Maze extends JApplet implements ActionListener {
             System.out.println("Failed curr_direction.txt read");
             System.exit(1);
         }
-
         if (direction == 0) { // up
             b.setY(b.getY() - move_units);
+            if(b.getScaledY == 0 || horizontal_walls[b.getScaledX][b.getScaledY-1] == 1){
+                timer.stop();
+            }
         } else if (direction == 1) { // down
             b.setY(b.getY() + move_units);
+            if(b.getScaledY == 0 || horizontal_walls[b.getScaledX][b.getScaledY] == 1){
+                timer.stop();
+            }
         } else if (direction == 2) { // left
             b.setX(b.getX() - move_units);
+            if(b.getScaledX == 0 || horizontal_walls[b.getScaledX-1][b.getScaledY] == 1){
+                timer.stop();
+            }
         } else if (direction == 3) { // right
             b.setX(b.getX() + move_units);
         }
@@ -116,9 +126,25 @@ public class Maze extends JApplet implements ActionListener {
 
 class Box extends JPanel {
     int x = -20, y = 0;
+    int scaled_x = 0;
+    int scaled_y = 0;
     private static final int PREF_W = 500;
     private static final int PREF_H = PREF_W;
+    public void setScaledX(int x) {
+        this.scaled_x = x;
+    }
     
+    public void setScaledY(int y) {
+        this.scaled_y = y;
+    }
+
+    public int getScaledX() {
+        return scaled_x;
+    }
+
+    public int getScaledY() {
+        return scaled_y;
+    }
     public void setX(int x) {
         this.x = x;
     }
