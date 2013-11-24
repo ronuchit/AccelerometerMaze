@@ -5,12 +5,6 @@ package disjoint_sets;
 /**
  *  A disjoint sets ADT.  Performs union-by-size and path compression.
  *  Implemented using arrays.  There is no error checking whatsoever.
- *  By adding your own error-checking, you might save yourself a lot of time
- *  finding bugs in your application code for Project 3 and Homework 9.
- *  Without error-checking, expect bad things to happen if you try to unite
- *  two elements that are not roots of their respective sets, or are not
- *  distinct.
- *
  *  Elements are represented by ints, numbered from zero.
  **/
 
