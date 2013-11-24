@@ -276,15 +276,17 @@ public class MazeGenerator {
     try {
       writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../data/hWalls.txt"), "utf-8"));
       writer.write(horiz + " " + vert + "\n");
-      for(int i = 0; i < hWalls.length; i++) {
-        for(int j = 0; j < hWalls[0].length; j++) {
-          if (hWalls[i][j]) {
+      for(int i = 0; i < hWalls[0].length; i++) {
+        for(int j = 0; j < hWalls.length; j++) {
+          if (hWalls[j][i]) {
             writer.write("1 ");
           } else {
             writer.write("0 ");
           }
         }
-        writer.write("\n");
+        if (i != hWalls[0].length - 1) {
+            writer.write("\n");
+        }
       }
       writer.close();
     } catch (IOException e) {
@@ -295,15 +297,17 @@ public class MazeGenerator {
     try {
       writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../data/vWalls.txt"), "utf-8"));
       writer.write(horiz + " " + vert + "\n");
-      for(int i = 0; i < vWalls.length; i++) {
-        for(int j = 0; j < vWalls[0].length; j++) {
-          if (vWalls[i][j]) {
+      for(int i = 0; i < vWalls[0].length; i++) {
+        for(int j = 0; j < vWalls.length; j++) {
+          if (vWalls[j][i]) {
             writer.write("1 ");
           } else {
             writer.write("0 ");
           }
         }
-        writer.write("\n");
+        if (i != vWalls[0].length - 1) {
+            writer.write("\n");
+        }
       }
       writer.close();
     } catch (IOException e) {
