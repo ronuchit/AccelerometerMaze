@@ -7,11 +7,9 @@ fi
 
 javac MazeGenerator.java
 javac Maze.java
-while true; do
-    java MazeGenerator $1 $2 $3
-    python input_listener.py &
-    appletviewer Maze.html
-    pkill -KILL python
-    rm *.class
-    rm *.pyc
-done
+java MazeGenerator $1 $2 $3
+python input_listener.py &
+appletviewer Maze.html
+pkill -KILL python
+rm *.class
+rm *.pyc
