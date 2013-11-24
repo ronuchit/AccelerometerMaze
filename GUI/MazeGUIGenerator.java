@@ -25,7 +25,6 @@ import javax.swing.JPanel;
  * @author Robert
  */
 public class MazeGUIGenerator extends JPanel {
-
     public static final int VERTICAL = 1;
     private static final int PREF_W = 500;
     private static final int PREF_H = PREF_W;
@@ -67,7 +66,7 @@ public class MazeGUIGenerator extends JPanel {
                 }
                 count++;
             }
-            scaledValue = 500/Math.max(height, width);
+            scaledValue = 500 / Math.max(height, width);
             if (i == VERTICAL) {
                 verticalWalls = walls;
             } else {
