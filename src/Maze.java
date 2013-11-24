@@ -30,6 +30,8 @@ public class Maze extends JApplet implements ActionListener {
     Box b;
     int maze_height, maze_width,move_units;
     String[] heightAndWidth;
+    JLabel fail;
+    JLabel success;
     MazeGUIGenerator mg;
     Timer timer;
     boolean invincible = false;
@@ -48,7 +50,7 @@ public class Maze extends JApplet implements ActionListener {
             this.invincible = true;
         }
         timer = new Timer(pace, this);
-        timer.setInitialDelay(1000);
+        timer.setInitialDelay(3000);
         b = new Box();
         try {
             move_units = MoveUnits();
@@ -57,8 +59,9 @@ public class Maze extends JApplet implements ActionListener {
             System.exit(1);
         }
         System.out.println("File is " + move_units);
-        b.setX((int)(0.4*move_units));
+        b.setX((int)(1.40*move_units));
         b.setY((int)(1.35*move_units));
+        add(b);
     }
     
     public int MoveUnits() throws FileNotFoundException, IOException {
@@ -72,8 +75,10 @@ public class Maze extends JApplet implements ActionListener {
     }
     @Override
     public void init() {
-        JLabel fail;
-        fail = new JLabel(getParameter("HURUR"));
+        fail = new JLabel("Fail");
+        fail.setHorizontalTextPosition(JLabel.CENTER);
+        fail.setVerticalTextPosition(JLabel.BOTTOM);
+        success = new JLabel("Sucess!");
         setSize(APPLET_X_SIZE, APPLET_Y_SIZE);
         mg = new MazeGUIGenerator();
         add(mg);
@@ -82,6 +87,8 @@ public class Maze extends JApplet implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent ae) {
+
+        fail.setLocation(0,0);
         // hack for refresh
         setSize(APPLET_X_SIZE + size_delta, APPLET_Y_SIZE + size_delta);
         if(size_delta == 1) {
@@ -104,21 +111,36 @@ public class Maze extends JApplet implements ActionListener {
         }
         if (direction == 0) { // up
             b.setY(b.getY() - move_units);
-            if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledX()][b.getScaledY()-1] == 1){
+            if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledY()][b.getScaledY()-1] == 1){   
                 timer.stop();
             }
+            b.setScaledY(b.getScaledY() - 1);
         } else if (direction == 1) { // down
             b.setY(b.getY() + move_units);
-            if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledX()][b.getScaledY()] == 1){
+            if(b.getScaledY() == maze_height-1 || mg.horizontalWalls[b.getScaledY()][b.getScaledX()] == 1){
                 timer.stop();
             }
+            b.setScaledY(b.getScaledY() + 1);
         } else if (direction == 2) { // left
             b.setX(b.getX() - move_units);
-            if(b.getScaledX() == 0 || mg.verticalWalls[b.getScaledX()-1][b.getScaledY()] == 1){
+            if(b.getScaledY() == 0 || mg.verticalWalls[b.getScaledY()-1][b.getScaledX()] == 1){
                 timer.stop();
             }
+            b.setScaledX(b.getScaledX() - 1);
         } else if (direction == 3) { // right
             b.setX(b.getX() + move_units);
+            if(b.getScaledY() == maze_width-1 && b.getScaledY() == maze_height-1){
+                add(success);
+                timer.stop();
+                return;
+            }
+            else if(b.getScaledY() == maze_width-1 || mg.verticalWalls[b.getScaledY()][b.getScaledX()] == 1){
+                System.out.println("FAIL!");
+                System.out.println(b.getScaledY());
+                timer.stop();
+                return;
+            }
+            b.setScaledX(b.getScaledX() + 1);
         }
         add(b);
     }
