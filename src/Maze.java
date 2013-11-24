@@ -136,9 +136,9 @@ public class Maze extends JApplet implements ActionListener {
         paceButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e)
             {
-                pace = (pace+200)%1000;
+                pace = (pace+200)%2000;
                 if(pace == 0){
-                    pace = 1000;
+                    pace = 2000;
                 }
                 timer.setDelay(pace);
                 paceButton.setText(String.valueOf(pace));
