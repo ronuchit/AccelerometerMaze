@@ -25,5 +25,5 @@ To use AccelerometerMaze, run the program on your computer and tilt your android
 
 //===============================//
    Further Description
-//===============================//
+//==============================//
 The android phone collects gyroscope and accelerometer data and then calculates relative position of the phone.  Then it translates this position data into direction (up, down, left, or right) and then communicates with the computer via bluetooth and writes the direction to a file, which is read by the maze file.  Then the maze file reads that direction and moves the square on the screen accordingly.
