@@ -27,6 +27,6 @@ class InputListener(object):
 if __name__ == "__main__":
   listener = InputListener()
   root = tk.Tk()
-  print("Press arrow keys to move (any other key to exit) ")
+  print("Press arrow keys to move (enter to exit) ")
   root.bind_all('<Key>', listener.keyPressed)
   root.mainloop()

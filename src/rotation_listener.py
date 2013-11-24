@@ -7,8 +7,8 @@ class RotationListener(object):
   UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
   def __init__(self):
-    self.prev_avg = [0.0, 0.0]
-    self.curr_data = []
+    #self.prev_avg = [0.0, 0.0]
+    self.curr_data = [0.0, 0.0]
     self.motion_threshold = 2.0
     self.zero_threshold = 0.5
     self.can_move = True
@@ -32,7 +32,7 @@ class RotationListener(object):
       l = len(self.curr_data)
       curr_avg = [a / l for a in curr_avg]
       print(curr_avg)
-      print(self.prev_avg)
+      #print(self.prev_avg)
       # figure out which direction the phone moved
       if ((abs(curr_avg[0]) < self.zero_threshold) and (abs(curr_avg[1]) < self.zero_threshold)):
         self.can_move = True
@@ -65,7 +65,7 @@ class RotationListener(object):
                 if self.can_move:
                   self.register_direction(RotationListener.DOWN)
                 self.can_move = False
-      self.prev_avg = curr_avg
+      #self.prev_avg = curr_avg
 
   def register_direction(self, direction):
     with open("../data/curr_direction.txt", "w+") as f:
