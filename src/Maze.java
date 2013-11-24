@@ -102,36 +102,32 @@ public class Maze extends JApplet implements ActionListener {
             }
         });    
         restart.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e)
-            {
-<<<<<<< HEAD
-                if(restart.getText() == "Success!"){
-                    System.exit(0);
-=======
-                if (restart.getText() == "Success!") {
-                    JButton quitButton = new JButton("Quit");
-                    quitButton.setBounds(50, 60, 80, 30);
-                    quitButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent event) {
-                            System.exit(0);
-                        }
-                    });
-                    add(quitButton);
-                    //quitButton.setPreferredSize(300, 200);
-                    quitButton.setLocation(50, 50);
-                    //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    //System.exit(0);
->>>>>>> b15749c48f9df9015a5093743abfdceadf36a9f2
-                }
-                //Execute when button is pressed
-                b.setX((int)(0.40*move_units));
-                b.setY((int)(1.35*move_units));
-                startPoint = 0;
-                b.setScaledX(0);
-                b.setScaledY(0);
-                restart.setVisible(false);
-                timer.restart();
+        public void actionPerformed(ActionEvent e){
+            if(restart.getText() == "Success!"){
+                System.exit(0);
+            if (restart.getText() == "Success!") {
+                JButton quitButton = new JButton("Quit");
+                quitButton.setBounds(50, 60, 80, 30);
+                quitButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent event) {
+                        System.exit(0);
+                    }
+                });
+                add(quitButton);
+                //quitButton.setPreferredSize(300, 200);
+                quitButton.setLocation(50, 50);
+                //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                //System.exit(0);
+            }
+            //Execute when button is pressed
+            b.setX((int)(0.40*move_units));
+            b.setY((int)(1.35*move_units));
+            startPoint = 0;
+            b.setScaledX(0);
+            b.setScaledY(0);
+            restart.setVisible(false);
+            timer.restart();
             }
         });    
         paceButton.addActionListener(new ActionListener() {
