@@ -274,7 +274,8 @@ public class MazeGenerator {
     Writer writer = null;
 
     try {
-      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/hWalls.txt"), "utf-8"));
+      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../data/hWalls.txt"), "utf-8"));
+      writer.write(horiz + " " + vert + "\n");
       for(int i = 0; i < hWalls.length; i++) {
         for(int j = 0; j < hWalls[0].length; j++) {
           if (hWalls[i][j]) {
@@ -292,7 +293,8 @@ public class MazeGenerator {
     }
 
     try {
-      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/vWalls.txt"), "utf-8"));
+      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../data/vWalls.txt"), "utf-8"));
+      writer.write(horiz + " " + vert + "\n");
       for(int i = 0; i < vWalls.length; i++) {
         for(int j = 0; j < vWalls[0].length; j++) {
           if (vWalls[i][j]) {
