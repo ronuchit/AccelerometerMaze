@@ -14,6 +14,7 @@ import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.*;
 /*<applet code=applet.java width=1000 height=1000>
 </applet>*/ 
 
@@ -82,7 +83,8 @@ public class Maze extends JApplet implements ActionListener {
     public void init() {
         Font f = new Font("serif", Font.PLAIN, 30);
         fail = new JLabel("Fail");
-        success = new JLabel("Success!");
+        success = new JLabel("Success!",SwingConstants.CENTER);
+        success.setVerticalAlignment(SwingConstants.CENTER);
         restart = new JButton("Restart?");
         restart.setFont(f);
         restart.addActionListener(new ActionListener() {
@@ -92,6 +94,7 @@ public class Maze extends JApplet implements ActionListener {
                 System.out.println("You clicked the button");
                 b.setX((int)(0.40*move_units));
                 b.setY((int)(1.35*move_units));
+                startPoint = 0;
                 b.setScaledX(0);
                 b.setScaledY(0);
                 restart.setVisible(false);
@@ -134,6 +137,11 @@ public class Maze extends JApplet implements ActionListener {
             System.out.println("Failed curr_direction.txt read");
             System.exit(1);
         } 
+        if(startPoint == 0){
+            startPoint++;
+            b.setX(b.getX() + move_units);
+            return;
+        }
         if (direction == 0) { // up
             b.setY(b.getY() - move_units);
             if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledY()-1][b.getScaledY()] == 1){   
