@@ -54,6 +54,7 @@ public class Maze extends JApplet implements ActionListener {
             System.exit(1);
         }
         if (invincible == 1) {
+            System.out.println("Scrub");
             this.invincible = true;
         }
         timer = new Timer(pace, this);
@@ -118,6 +119,9 @@ public class Maze extends JApplet implements ActionListener {
     */
     @Override
     public void actionPerformed(ActionEvent ae) {
+        if(invincible){
+            System.out.println("HUZZAH");
+        }
         fail.setLocation(0,0);
         // hack for refresh
         setSize(APPLET_X_SIZE + size_delta, APPLET_Y_SIZE + size_delta);
@@ -145,36 +149,44 @@ public class Maze extends JApplet implements ActionListener {
             return;
         }
         if (direction == 0) { // up
-            b.setY(b.getY() - move_units);
             if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledY()-1][b.getScaledX()] == 1){   
+                if(invincible){
+                    return;
+                }
                 add(restart);
                 restart.setVisible(true);
                 timer.stop();
                 return;
             }
+            b.setY(b.getY() - move_units);
             b.setScaledY(b.getScaledY() - 1);
         } else if (direction == 1) { // down
-            b.setY(b.getY() + move_units);
             if(b.getScaledX() == maze_height-1 || mg.horizontalWalls[b.getScaledY()][b.getScaledX()] == 1){
+                if(invincible){
+                    return;
+                }
                 add(restart);
                 restart.setVisible(true);
                 timer.stop();
                 return;
             }
+            b.setY(b.getY() + move_units);
             b.setScaledY(b.getScaledY() + 1);
         } else if (direction == 2) { // left
-            b.setX(b.getX() - move_units);
             if(b.getScaledX() == 0 || mg.verticalWalls[b.getScaledY()][b.getScaledX()-1] == 1){
+                if(invincible){
+                    return;
+                }
                 add(restart);
                 restart.setVisible(true);
                 timer.stop();
                 return;
             }
+            b.setX(b.getX() - move_units);
             b.setScaledX(b.getScaledX() - 1);
         } else if (direction == 3) { // right
-            b.setX(b.getX() + move_units);
             if(b.getScaledY() == maze_height-1 && b.getScaledX() == maze_width-1){
-                System.out.println("Sucess?");
+                b.setX(b.getX() + move_units);
                 restart.setText("Success!");
                 restart.setVisible(true);
                 add(restart);
@@ -182,11 +194,15 @@ public class Maze extends JApplet implements ActionListener {
                 return;
             }
             else if(b.getScaledX() == maze_width-1 || mg.verticalWalls[b.getScaledY()][b.getScaledX()] == 1){
+                if(invincible){
+                    return;
+                }
                 add(restart);
                 restart.setVisible(true);
                 timer.stop();
                 return;
             }
+            b.setX(b.getX() + move_units);
             b.setScaledX(b.getScaledX() + 1);
         }
         add(b);
