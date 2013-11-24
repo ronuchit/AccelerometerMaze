@@ -129,6 +129,7 @@ public class Maze extends JApplet implements ActionListener {
                 b.setScaledX(0);
                 b.setScaledY(0);
                 restart.setVisible(false);
+                add(mg);
                 timer.restart();
             }
         });    
@@ -215,7 +216,7 @@ public class Maze extends JApplet implements ActionListener {
             b.setY(b.getY() - move_units);
             b.setScaledY(b.getScaledY() - 1);
         } else if (direction == 1) { // down
-            if(b.getScaledX() == maze_height-1 || mg.horizontalWalls[b.getScaledY()][b.getScaledX()] == 1){
+            if(b.getScaledY() >= maze_height-1 || mg.horizontalWalls[b.getScaledY()][b.getScaledX()] == 1){
                 if(invincible){
                     return;
                 }
