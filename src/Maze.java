@@ -91,7 +91,7 @@ public class Maze extends JApplet implements ActionListener {
         restart.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e)
             {
-                if(restart.getText() == "Success!"){
+                if (restart.getText() == "Success!") {
                     System.exit(0);
                 }
                 //Execute when button is pressed
