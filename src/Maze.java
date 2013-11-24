@@ -33,7 +33,7 @@ public class Maze extends JApplet implements ActionListener {
     Timer timer;
     
     public Maze() {
-        timer = new Timer(500, this);
+        timer = new Timer(200, this);
         timer.setInitialDelay(1000);
         b = new Box();
     }
@@ -125,6 +125,6 @@ class Box extends JPanel {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.RED);
-        g2.fillRect(0, 0, 10, 10);
+        g2.fillRect(x, y, 10, 10);
     }
 }

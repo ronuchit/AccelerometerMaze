@@ -2,7 +2,7 @@
 
 import java.util.*;
 import java.io.*;
-import utils.*;
+import disjoint_sets.*;
 import java.lang.*;
 
 /**
@@ -274,7 +274,7 @@ public class MazeGenerator {
     Writer writer = null;
 
     try {
-      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../data/hWalls.txt"), "utf-8"));
+      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/hWalls.txt"), "utf-8"));
       writer.write(horiz + " " + vert + "\n");
       for(int i = 0; i < hWalls[0].length; i++) {
         for(int j = 0; j < hWalls.length; j++) {
@@ -295,7 +295,7 @@ public class MazeGenerator {
     }
 
     try {
-      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../data/vWalls.txt"), "utf-8"));
+      writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data/vWalls.txt"), "utf-8"));
       writer.write(horiz + " " + vert + "\n");
       for(int i = 0; i < vWalls[0].length; i++) {
         for(int j = 0; j < vWalls.length; j++) {
@@ -331,7 +331,7 @@ public class MazeGenerator {
       vert = Integer.parseInt(args[1]);
       difficulty = Integer.parseInt(args[2]);
     } catch (NumberFormatException e) {
-      System.out.println("Usage: java MazeGenerator [dim1] [dim2]");
+      System.out.println("Usage: java MazeGenerator [dim1] [dim2] [difficulty 0/1/2/3]");
       System.exit(1);
     }
 
@@ -341,7 +341,7 @@ public class MazeGenerator {
       maze = new MazeGenerator(horiz, vert);
     }
     maze.write_walls();
-    System.out.print(maze);
+    // System.out.print(maze);
     // maze.diagnose();
   }
 

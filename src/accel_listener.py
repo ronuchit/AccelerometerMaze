@@ -14,11 +14,11 @@ class AccelListener(object):
     self.ignore_down = False
     self.ignore_left = False
     self.ignore_right = False
-    with open("../data/curr_direction.txt", "w+") as f:
+    with open("data/curr_direction.txt", "w+") as f:
       f.write("3"); # start off going to right
 
   def refresh_data(self):
-    with open("../data/accel_data.txt", "r+") as f:
+    with open("data/accel_data.txt", "r+") as f:
       self.curr_data = f.readlines()
 
   def listen(self):

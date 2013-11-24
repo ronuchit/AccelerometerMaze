@@ -1,6 +1,6 @@
 /* DisjointSets.java */
 
-package utils;
+package disjoint_sets;
 
 /**
  *  A disjoint sets ADT.  Performs union-by-size and path compression.
