@@ -95,9 +95,9 @@ public class Maze extends JApplet implements ActionListener {
                     JButton quitButton = new JButton("Quit");
                     quitButton.setBounds(50, 60, 80, 30);
                     quitButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-			    System.exit(0);
+                        @Override
+                        public void actionPerformed(ActionEvent event) {
+                            System.exit(0);
                         }
                     });
                     panel.add(quitButton);
