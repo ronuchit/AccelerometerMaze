@@ -98,7 +98,6 @@ public class MazeGUIGenerator extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         for (int i = 0; i < height; i++) {
             for (int j = -1; j < width; j++) {
-                //if black.
                 g2.setColor(Color.BLACK);
                 if (j == -1 || j == width-1 || verticalWalls[i][j] == 1) {
                     if(!(i == 0 && j == -1) && !(i== height-1 && j == width-1 )) {
@@ -111,7 +110,6 @@ public class MazeGUIGenerator extends JPanel {
         
         for (int i = -1; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                //if black.
                 g2.setColor(Color.BLACK);
                 if ( i<0 || i == height-1 || horizontalWalls[i][j] == 1) {
                     Rectangle r = new Rectangle((j+1) * scaledValue, (i+2) * scaledValue, scaledValue, 1);
