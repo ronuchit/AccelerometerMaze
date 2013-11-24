@@ -16,7 +16,7 @@ class RotationListener(object):
       f.write("3"); # start off going to right
 
   def refresh_data(self):
-    with open("data/accel_data.txt", "r+") as f:
+    with open("data/pos_data.txt", "r+") as f:
       self.curr_data = f.readlines()
 
   def listen(self):
