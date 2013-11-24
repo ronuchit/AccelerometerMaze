@@ -15,7 +15,9 @@ class InputListener(object):
       self.register_direction(AccelListener.UP)
     elif event.keysym == 'Down':
       self.register_direction(AccelListener.DOWN)
-    elif event.keysym == 'Enter':
+    elif event.char == event.keysym:
+      root.destroy()
+    elif len(event.char) == 1:
       root.destroy()
 
   def register_direction(self, direction):
