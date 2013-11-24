@@ -15,4 +15,5 @@ while true; do
     appletviewer Maze.html
     pkill -KILL python
     rm *.class
+    rm *.pyc
 done
