@@ -1,8 +1,3 @@
-import time
-
-# DATA_PER_INTERVAL = 5;
-INTERVAL = 0.1;
-
 class RotationListener(object):
   UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
@@ -15,15 +10,8 @@ class RotationListener(object):
     with open("data/curr_direction.txt", "w+") as f:
       f.write("3"); # start off going to right
 
-  def refresh_data(self):
-    with open("data/pos_data.txt", "r+") as f:
-      self.curr_data = f.readlines()
-
   def listen(self):
     while True:
-      # time.sleep(INTERVAL)
-      raw_input("...")
-      self.refresh_data()
       curr_avg = [0.0, 0.0]
       for datum_str in self.curr_data:
         datum = datum_str.split()
