@@ -40,8 +40,6 @@ public class Maze extends JApplet implements ActionListener {
     JButton start;
     JButton paceButton;
     JButton invulnButton;
-    JLabel fail;
-    JLabel success;
     MazeGUIGenerator mg;
     Timer timer;
     boolean invincible = false;
@@ -51,18 +49,6 @@ public class Maze extends JApplet implements ActionListener {
         int pace = 200;
         timer = new Timer(pace,this);
         timer.setInitialDelay(3000);
-        /*try {
-            BufferedReader br = new BufferedReader(new FileReader(new File("data/game_info.txt")));
-            pace = Integer.parseInt(br.readLine());
-            invincible = Integer.parseInt(br.readLine());
-        } catch (IOException e) {
-            System.out.println("this can't happen");
-            System.exit(1);
-        }*/
-        /*if (invincible == 1) {
-            System.out.println("Scrub");
-            this.invincible = true;
-        }*/
         b = new Box();
         try {
             move_units = MoveUnits();
@@ -92,7 +78,6 @@ public class Maze extends JApplet implements ActionListener {
     @Override
     public void init() {
         Font f = new Font("serif", Font.BOLD, 100);
-        fail = new JLabel("Fail");
         restart = new JButton("Restart?");
         start = new JButton("Start!");
         paceButton = new JButton("200");
@@ -119,21 +104,8 @@ public class Maze extends JApplet implements ActionListener {
         restart.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e)
             {
-                if (restart.getText() == "Success!") {
-                    JButton quitButton = new JButton("Quit");
-                    quitButton.setBounds(50, 60, 80, 30);
-                    quitButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent event) {
-                            System.exit(0);
-                        }
-                    });
-                    panel.add(quitButton);
-                    setSize(300, 200);
-                    setLocationRelativeTo(null);
-                    setDefaultCloseOperation(EXIT_ON_CLOSE);
-                    }
-                    //System.exit(0);
+                if(restart.getText() == "Success!"){
+                    System.exit(0);
                 }
                 //Execute when button is pressed
                 b.setX((int)(0.40*move_units));
@@ -189,7 +161,6 @@ public class Maze extends JApplet implements ActionListener {
     */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        fail.setLocation(0,0);
         // hack for refresh
         setSize(APPLET_X_SIZE + size_delta, APPLET_Y_SIZE + size_delta);
         if(size_delta == 1) {
