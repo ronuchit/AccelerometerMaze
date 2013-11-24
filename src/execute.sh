@@ -1,13 +1,10 @@
 #!/bin/bash
 
-if [ $# -ne 5 ] ; then
-    echo "Usage: bash $0 [MAZE_X_SIZE] [MAZE_Y_SIZE] [MAZE_DIFFICULTY (0/1/2/3)] [PACE (ms/update)] [INVINCIBILITY (0/1)]"
+if [ $# -ne 3 ] ; then
+    echo "Usage: bash $0 [MAZE_X_SIZE] [MAZE_Y_SIZE] [MAZE_DIFFICULTY (0/1/2/3)]"
     exit
 fi
 
-echo "3" > data/curr_direction.txt
-echo $4 > data/game_info.txt
-echo $5 >> data/game_info.txt
 javac MazeGenerator.java
 javac Maze.java
 while true; do
