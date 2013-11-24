@@ -5,6 +5,7 @@ if [ $# -ne 5 ] ; then
     exit
 fi
 
+echo "3" > data/curr_direction.txt
 echo $4 > data/game_info.txt
 echo $5 >> data/game_info.txt
 javac MazeGenerator.java

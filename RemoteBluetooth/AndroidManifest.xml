@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.luugiathuy.apps.remotebluetooth"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="7" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <activity
+            android:name="com.luugiathuy.apps.remotebluetooth.RemoteBluetooth"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.luugiathuy.apps.remotebluetooth.DeviceListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/select_device"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.luugiathuy.apps.remotebluetooth.SensorTestActivity"
+            android:label="@string/title_activity_sensor_test"
+            android:parentActivityName="com.luugiathuy.apps.remotebluetooth.RemoteBluetooth" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.luugiathuy.apps.remotebluetooth.RemoteBluetooth" />
+        </activity>
+    </application>
+
+</manifest>
