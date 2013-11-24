@@ -90,6 +90,9 @@ public class Maze extends JApplet implements ActionListener {
         restart.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e)
             {
+                if(restart.getText() == "Success!"){
+                    System.exit(0);
+                }
                 //Execute when button is pressed
                 System.out.println("You clicked the button");
                 b.setX((int)(0.40*move_units));
@@ -115,7 +118,6 @@ public class Maze extends JApplet implements ActionListener {
     */
     @Override
     public void actionPerformed(ActionEvent ae) {
-
         fail.setLocation(0,0);
         // hack for refresh
         setSize(APPLET_X_SIZE + size_delta, APPLET_Y_SIZE + size_delta);
@@ -144,7 +146,7 @@ public class Maze extends JApplet implements ActionListener {
         }
         if (direction == 0) { // up
             b.setY(b.getY() - move_units);
-            if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledY()-1][b.getScaledY()] == 1){   
+            if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledY()-1][b.getScaledX()] == 1){   
                 add(restart);
                 restart.setVisible(true);
                 timer.stop();
@@ -153,7 +155,7 @@ public class Maze extends JApplet implements ActionListener {
             b.setScaledY(b.getScaledY() - 1);
         } else if (direction == 1) { // down
             b.setY(b.getY() + move_units);
-            if(b.getScaledY() == maze_height-1 || mg.horizontalWalls[b.getScaledY()][b.getScaledX()] == 1){
+            if(b.getScaledX() == maze_height-1 || mg.horizontalWalls[b.getScaledY()][b.getScaledX()] == 1){
                 add(restart);
                 restart.setVisible(true);
                 timer.stop();
@@ -171,17 +173,17 @@ public class Maze extends JApplet implements ActionListener {
             b.setScaledX(b.getScaledX() - 1);
         } else if (direction == 3) { // right
             b.setX(b.getX() + move_units);
-            if(b.getScaledY() == maze_width-1 && b.getScaledX() == maze_height-1){
-                add(success);
+            if(b.getScaledY() == maze_height-1 && b.getScaledX() == maze_width-1){
+                System.out.println("Sucess?");
+                restart.setText("Success!");
+                restart.setVisible(true);
+                add(restart);
                 timer.stop();
                 return;
             }
             else if(b.getScaledX() == maze_width-1 || mg.verticalWalls[b.getScaledY()][b.getScaledX()] == 1){
                 add(restart);
                 restart.setVisible(true);
-                System.out.println("FAIL!");
-                System.out.println(b.getScaledY());
-                System.out.println(b.getScaledX());
                 timer.stop();
                 return;
             }
