@@ -20,12 +20,11 @@ class AccelListener(object):
       self.curr_data = f.readlines()
 
   def listen(self):
-    curr_avg = [0.0, 0.0]
-    
     while True:
       # time.sleep(INTERVAL)
       raw_input("...")
       self.refresh_data()
+      curr_avg = [0.0, 0.0]
       for datum_str in self.curr_data:
         datum = datum_str.split()
         curr_avg = []
