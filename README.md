@@ -18,6 +18,11 @@ Hack project for H@B BearHack Fall 2013. Android phone accelerometer-based maze 
 
   The user navigates through a maze by moving his/her android phone.
 
-//=================================//
+//==================================//
    Instructions
 //=================================//
+To use AccelerometerMaze, 
+
+//==============================//
+   Further Description
+//==============================//
