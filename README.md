@@ -14,7 +14,7 @@ Hack project for H@B BearHack Fall 2013. Android phone accelerometer-based maze 
 //==================================//
    Description
 //=================================//
-  Libraries used: Android App, Content, Sensors, OS and View 
+  Libraries used: Android App, Content, Sensors, OS and View; BlueCove 
 
   The user navigates through a maze by moving his/her android phone.
 
