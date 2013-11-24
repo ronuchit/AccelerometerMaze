@@ -70,7 +70,6 @@ public class Maze extends JApplet implements ActionListener {
             System.out.println("Failed curr_direction.txt read");
             System.exit(1);
         }
-        System.out.println(direction);
 
         if (direction == 0) { // up
             b.setY(b.getY() - MOVE_UNITS);
