@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package maze;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,17 +24,16 @@ import javax.swing.JPanel;
  *
  * @author Robert
  */
-public class MazeGenerator extends JPanel {
+public class MazeGUIGenerator extends JPanel {
 
     public static final int VERTICAL = 1;
     private static final int PREF_W = 500;
     private static final int PREF_H = PREF_W;
     public int[][] verticalWalls;
     public int[][] horizontalWalls;
-    public int[][] Walls;
-    private int length;
-    private int height;
-    private int width;
+    public int[][] walls;
+    public int height;
+    public int width;
 
     /*Parses the boolean matrix off the HorizontalMaze text file. First loop
       creates the vertical walls, second loop creates horizontal walls. Takes
@@ -44,11 +42,11 @@ public class MazeGenerator extends JPanel {
     public void Parse() throws FileNotFoundException, IOException {
         File file;
         for (int i = 0; i < 2; i++) {
-            if(i == VERTICAL){
-                file = new File("C:\\Users\\Robert\\Documents\\vertical.txt");
-           }
-           else{
-                file = new File("C:\\Users\\Robert\\Documents\\horizontal.txt");
+            if (i == VERTICAL) {
+                file = new File("../data/vWalls.txt");
+            }
+            else {
+               file = new File("../data/hWalls.txt");
             }
             int count = -1;
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -58,25 +56,25 @@ public class MazeGenerator extends JPanel {
                     String[] heightAndWidth = line.split(" ");
                     width = new Integer(heightAndWidth[0]);
                     height = new Integer(heightAndWidth[1]);
-                    this.Walls = new int[height][width];
+                    this.walls = new int[height][width];
                 } else {
                     String[] numbers = line.split(" ");
                     for (int j = 0; j < width-i ; j++) {
-                        Walls[count][j] = new Integer(numbers[j]);
+                        walls[count][j] = new Integer(numbers[j]);
                     }
                 }
                 count++;
             }
             
-            if(i == VERTICAL){
-                verticalWalls = Walls;
-            }
-            
-            else{
-                horizontalWalls = Walls;
+            if (i == VERTICAL) {
+                verticalWalls = walls;
+            } else {
+                horizontalWalls = walls;
             }
         }
     }
+
+    
 
     /**
      * *
@@ -92,7 +90,8 @@ public class MazeGenerator extends JPanel {
         try {
             Parse();
         } catch (IOException ex) {
-            Logger.getLogger(HorizontalMaze.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("parse failure");
+            System.exit(1);
         }
         
         Graphics2D g2 = (Graphics2D) g;
@@ -113,7 +112,7 @@ public class MazeGenerator extends JPanel {
             for (int j = 0; j < width; j++) {
                 //if black.
                 g2.setColor(Color.BLACK);
-                if ( i<0 || i == height-1 ||horizontalWalls[i][j] == 1) {
+                if ( i<0 || i == height-1 || horizontalWalls[i][j] == 1) {
                     Rectangle r = new Rectangle((j+1) * 20, (i+2) * 20, 20, 1);
                     g2.draw(r);
                 }
