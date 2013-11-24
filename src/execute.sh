@@ -8,8 +8,11 @@ fi
 echo $4 > data/game_info.txt
 echo $5 >> data/game_info.txt
 javac MazeGenerator.java
-java MazeGenerator $1 $2 $3
-python input_listener.py &
 javac Maze.java
-appletviewer Maze.html
-pkill -KILL python
+while true; do
+    java MazeGenerator $1 $2 $3
+    python input_listener.py &
+    appletviewer Maze.html
+    pkill -KILL python
+    rm *.class
+done
