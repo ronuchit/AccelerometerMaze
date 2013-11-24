@@ -11,13 +11,13 @@ Hack project for H@B BearHack Fall 2013. Android phone accelerometer-based maze 
   Sydney Wong
   Junwei Yu
 
-//===================================//
+//===============================//
    Description
-//===================================//
+//===============================//
   Libraries used: 
 
-  A maze game where the user navigates through the maze by moving his/her android phone.
+  The user navigates through a maze by moving his/her android phone.
 
-//==================================//
+//=============================//
    Instructions
-//==================================//
+//=============================//
