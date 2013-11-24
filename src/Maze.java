@@ -22,6 +22,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
+import javax.swing.SwingUtilities;
 
 import java.io.*;
 
@@ -92,21 +93,28 @@ public class Maze extends JApplet implements ActionListener {
         public void actionPerformed(ActionEvent e)
             {
                 if (restart.getText() == "Success!") {
+                    JPanel panel = new JPanel();
+                    getContentPane().add(panel);
+
+                    panel.setLayout(null);
+
                     JButton quitButton = new JButton("Quit");
                     quitButton.setBounds(50, 60, 80, 30);
+       
                     quitButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent event) {
                             System.exit(0);
                         }
                     });
+
                     panel.add(quitButton);
-                    setSize(300, 200);
-                    setLocationRelativeTo(null);
-                    setDefaultCloseOperation(EXIT_ON_CLOSE);
-                    }
-                    //System.exit(0);
+
+                    quitButton.setPreferredSize(300, 200);
+                    quitButton.setLocation(50, 50);
+                    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 }
+                    //System.exit(0);
                 //Execute when button is pressed
                 System.out.println("You clicked the button");
                 b.setX((int)(0.40*move_units));
