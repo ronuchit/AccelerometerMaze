@@ -7,9 +7,7 @@ class InputListener(object):
       f.write("3"); # start off going to right
       
   def keyPressed(self,event):
-    if event.keysym == 'Escape':
-      root.destroy()
-    elif event.keysym == 'Right':
+    if event.keysym == 'Right':
       self.register_direction(AccelListener.RIGHT)
     elif event.keysym == 'Left':
       self.register_direction(AccelListener.LEFT)
@@ -27,6 +25,6 @@ class InputListener(object):
 if __name__ == "__main__":
   listener = InputListener()
   root = tk.Tk()
-  print("Press arrow keys to move (Escape key to exit) ")
+  print("Press arrow keys to move (any other key to exit) ")
   root.bind_all('<Key>', listener.keyPressed)
   root.mainloop()
