@@ -1,6 +1,6 @@
 import Tkinter as tk
 
-class App(object):
+class InputListener(object):
 
   def keyPressed(self,event):
     print "HERE"
@@ -19,10 +19,10 @@ class App(object):
     with open("../data/curr_direction.txt", "w+") as f:
       f.write(str(direction))
 
-application = App()
+listener = InputListener()
 root = tk.Tk()
 print( "Press arrow key (Escape key to exit):" )
-root.bind_all('<Key>', application.keyPressed)
+root.bind_all('<Key>', listener.keyPressed)
 #root.withdraw()
 root.mainloop()
 
