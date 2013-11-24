@@ -2,7 +2,7 @@ package com.luugiathuy.apps.remotebluetooth;
 
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.io.InputStream;
+import java.io.*;
 
 import javax.microedition.io.StreamConnection;
 
@@ -49,19 +49,12 @@ public class ProcessConnectionThread implements Runnable{
      */
     private void processCommand(int command) {
         try {
-            Robot robot = new Robot();
-            switch (command) {
-                case KEY_RIGHT:
-                    robot.keyPress(KeyEvent.VK_RIGHT);
-                    System.out.println("Right");
-                    break;
-                case KEY_LEFT:
-                    robot.keyPress(KeyEvent.VK_LEFT);
-                    System.out.println("Left");
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../../../../../../src/data/curr_direction.txt"), "utf-8"));
+            writer.write(Integer.toString(command));
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Failed curr_direction write to file");
+            System.exit(1);
         }
     }
 }
