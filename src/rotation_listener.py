@@ -34,7 +34,7 @@ class RotationListener(object):
       print(curr_avg)
       print(self.prev_avg)
       # figure out which direction the phone moved
-      if ((abs(curr_avg[0]) < zero_threshold) and (abs(curr_avg[1]) < zero_threshold)):
+      if ((abs(curr_avg[0]) < self.zero_threshold) and (abs(curr_avg[1]) < self.zero_threshold)):
         self.can_move = True
       else:
         for i in range(len(curr_avg)):
@@ -43,26 +43,26 @@ class RotationListener(object):
               if i == 0:
                 # it moved in the right direction
                 print("right")
-                if can_move:
+                if self.can_move:
                   self.register_direction(RotationListener.RIGHT)
                 self.can_move = False
               else:
                 # it moved in the up direction
                 print("up")
-                if can_move:
+                if self.can_move:
                   self.register_direction(RotationListener.DOWN)
                 self.can_move = False
             else:
               if i == 0:
                 # it moved in the left direction
                 print("left")
-                if can_move:
+                if self.can_move:
                   self.register_direction(RotationListener.LEFT)
                 self.can_move = False
               else:
                 # it moved in the down direction
                 print("down")
-                if can_move:
+                if self.can_move:
                   self.register_direction(RotationListener.DOWN)
                 self.can_move = False
       self.prev_avg = curr_avg
