@@ -30,6 +30,7 @@ public class Maze extends JApplet implements ActionListener {
     Box b;
     int maze_height, maze_width,move_units;
     String[] heightAndWidth;
+    MazeGUIGenerator mg;
     Timer timer;
     boolean invincible = false;
     
@@ -72,9 +73,9 @@ public class Maze extends JApplet implements ActionListener {
     @Override
     public void init() {
         JLabel fail;
-        label = new JLabel(getParameter("HURUR"));
+        fail = new JLabel(getParameter("HURUR"));
         setSize(APPLET_X_SIZE, APPLET_Y_SIZE);
-        MazeGUIGenerator mg = new MazeGUIGenerator();
+        mg = new MazeGUIGenerator();
         add(mg);
         timer.start();
     }
@@ -103,17 +104,17 @@ public class Maze extends JApplet implements ActionListener {
         }
         if (direction == 0) { // up
             b.setY(b.getY() - move_units);
-            if(b.getScaledY == 0 || horizontal_walls[b.getScaledX][b.getScaledY-1] == 1){
+            if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledX()][b.getScaledY()-1] == 1){
                 timer.stop();
             }
         } else if (direction == 1) { // down
             b.setY(b.getY() + move_units);
-            if(b.getScaledY == 0 || horizontal_walls[b.getScaledX][b.getScaledY] == 1){
+            if(b.getScaledY() == 0 || mg.horizontalWalls[b.getScaledX()][b.getScaledY()] == 1){
                 timer.stop();
             }
         } else if (direction == 2) { // left
             b.setX(b.getX() - move_units);
-            if(b.getScaledX == 0 || horizontal_walls[b.getScaledX-1][b.getScaledY] == 1){
+            if(b.getScaledX() == 0 || mg.verticalWalls[b.getScaledX()-1][b.getScaledY()] == 1){
                 timer.stop();
             }
         } else if (direction == 3) { // right
