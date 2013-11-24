@@ -3,7 +3,6 @@ import Tkinter as tk
 class InputListener(object):
 
   def keyPressed(self,event):
-    print "HERE"
     if event.keysym == 'Escape':
       root.destroy()
     elif event.keysym == 'Right':
